@@ -55,3 +55,30 @@ class Channel:
         channels_id = self.__channel_id
         channel = Channel.get_service().channels().list(id=channels_id, part='snippet,statistics').execute()
         return channel['items'][0]
+
+    def __str__(self):
+        return f'{self.title}: {self.url}'
+
+    # def __call__(self, *args, **kwargs):
+    #
+
+    def __add__(self, other):
+        return int(self.subscriber_count) + int(other.subscriber_count)
+
+    def __sub__(self, other):
+        return int(self.subscriber_count) - int(other.subscriber_count)
+
+    def __gt__(self, other):
+        return int(self.subscriber_count) > int(other.subscriber_count)
+
+    def __ge__(self, other):
+        return int(self.subscriber_count) >= int(other.subscriber_count)
+
+    def __lt__(self, other):
+        return int(self.subscriber_count) < int(other.subscriber_count)
+
+    def __le__(self, other):
+        return int(self.subscriber_count) <= int(other.subscriber_count)
+
+    def __eq__(self, other):
+        return int(self.subscriber_count) == int(other.subscriber_count)
