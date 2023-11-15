@@ -59,9 +59,6 @@ class Channel:
     def __str__(self):
         return f'{self.title}: {self.url}'
 
-    # def __call__(self, *args, **kwargs):
-    #
-
     def __add__(self, other):
         return int(self.subscriber_count) + int(other.subscriber_count)
 
