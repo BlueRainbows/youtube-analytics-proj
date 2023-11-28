@@ -7,7 +7,7 @@ class Video:
 
     def __init__(self, id_video):
         self.id_video = id_video
-        self.video_title = self.get_info_video()[0]
+        self.title = self.get_info_video()[0]
         self.video_url = 'https://www.youtube.com/watch?v=' + self.id_video
         self.view_count = self.get_info_video()[1]
         self.like_count = self.get_info_video()[2]
@@ -15,19 +15,24 @@ class Video:
     def get_info_video(self):
         list_value = []
         video_id = self.id_video
-        video_response = self.youtube.videos().list(part='snippet,statistics,contentDetails,topicDetails',
-                                               id=video_id
-                                               ).execute()
-        video_title: str = video_response['items'][0]['snippet']['title']
-        list_value.append(video_title)
-        view_count: int = video_response['items'][0]['statistics']['viewCount']
-        list_value.append(view_count)
-        like_count: int = video_response['items'][0]['statistics']['likeCount']
-        list_value.append(like_count)
+        try:
+            video_response = self.youtube.videos().list(part='snippet,statistics,contentDetails,topicDetails',
+                                                        id=video_id
+                                                         ).execute()
+            video_title: str = video_response['items'][0]['snippet']['title']
+            list_value.append(video_title)
+            view_count: int = video_response['items'][0]['statistics']['viewCount']
+            list_value.append(view_count)
+            like_count: int = video_response['items'][0]['statistics']['likeCount']
+            list_value.append(like_count)
+        except IndexError:
+            list_value.append(None)
+            list_value.append(None)
+            list_value.append(None)
         return list_value
 
     def __str__(self):
-        return self.video_title
+        return self.title
 
 
 class PLVideo(Video):
@@ -37,4 +42,4 @@ class PLVideo(Video):
         self.playlist_id = playlist_id
 
     def __str__(self):
-        return self.video_title
+        return self.title
